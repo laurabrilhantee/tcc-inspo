@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="pt-BR" class="h-full">
+ <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Loja de Tintas</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="/_sdk/element_sdk.js"></script>
+  <script src="/_sdk/data_sdk.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+  <style>
+    * { font-family: 'Outfit', sans-serif; }
+    .product-card:hover { transform: translateY(-8px); }
+    .color-swatch { transition: all 0.2s ease; }
+    .color-swatch:hover { transform: scale(1.15); }
+    .btn-primary { transition: all 0.3s ease; }
+    .btn-primary:hover { transform: scale(1.02); }
+    .cart-badge { animation: pulse 2s infinite; }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(20px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    .cart-item { animation: slideIn 0.3s ease; }
+    .toast {
+      animation: toastIn 0.3s ease, toastOut 0.3s ease 2.7s forwards;
+    }
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0); }
+      to { opacity: 0; transform: translateY(20px); }
+    }
+  </style>
+  <style>body { box-sizing: border-box; }</style>
+ </head>
+ <body class="h-full">
+  <div id="app" class="min-h-full w-full bg-stone-100"><!-- Header -->
+   <header class="bg-emerald-800 text-white shadow-lg sticky top-0 z-50">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+     <div class="flex items-center gap-3">
+      <div class="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center">
+       <svg class="w-6 h-6 text-emerald-800" fill="currentColor" viewbox="0 0 24 24"><path d="M7 2v2h1v14c0 1.1.9 2 2 2h4c1.1 0 2-.9 2-2V4h1V2H7zm5 2c.55 0 1 .45 1 1v1h-2V5c0-.55.45-1 1-1z" />
+       </svg>
+      </div>
+      <h1 id="store-name" class="text-2xl font-bold">ColorMix Tintas</h1>
+     </div><button id="cart-btn" class="relative bg-emerald-700 hover:bg-emerald-600 px-4 py-2 rounded-full flex items-center gap-2 transition-all">
+      <svg class="w-5 h-5" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+      </svg><span>Carrinho</span> <span id="cart-count" class="cart-badge absolute -top-2 -right-2 bg-amber-400 text-emerald-900 text-xs font-bold w-6 h-6 rounded-full flex items-center justify-center hidden">0</span> </button>
+    </div>
+   </header><!-- Hero Section -->
+   <section class="bg-gradient-to-br from-emerald-700 via-emerald-600 to-teal-500 text-white py-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+     <h2 id="hero-title" class="text-4xl md:text-5xl font-bold mb-4">Transforme seus espaços com cores incríveis</h2>
+     <p id="hero-subtitle" class="text-xl opacity-90 mb-8">Tintas premium com a melhor qualidade e durabilidade do mercado</p>
+     <div class="flex flex-wrap justify-center gap-4">
+      <div class="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
+       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+       </svg><span>Frete Grátis</span>
+      </div>
+      <div class="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
+       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+       </svg><span>10 Anos de Garantia</span>
+      </div>
+      <div class="flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full">
+       <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 20 20">
+        <path d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" />
+       </svg><span>Entrega Rápida</span>
+      </div>
+     </div>
+    </div>
+   </section><!-- Categories -->
+   <section class="py-8 px-4 bg-white border-b border-stone-200">
+    <div class="max-w-7xl mx-auto flex flex-wrap justify-center gap-4"><button class="category-btn active px-6 py-2 rounded-full bg-emerald-800 text-white font-medium transition-all" data-category="all">Todas</button> <button class="category-btn px-6 py-2 rounded-full bg-stone-200 text-stone-700 font-medium hover:bg-emerald-100 transition-all" data-category="interior">Interior</button> <button class="category-btn px-6 py-2 rounded-full bg-stone-200 text-stone-700 font-medium hover:bg-emerald-100 transition-all" data-category="exterior">Exterior</button> <button class="category-btn px-6 py-2 rounded-full bg-stone-200 text-stone-700 font-medium hover:bg-emerald-100 transition-all" data-category="madeira">Madeira</button> <button class="category-btn px-6 py-2 rounded-full bg-stone-200 text-stone-700 font-medium hover:bg-emerald-100 transition-all" data-category="metal">Metal</button>
+    </div>
+   </section><!-- Products Grid -->
+   <section class="py-12 px-4">
+    <div class="max-w-7xl mx-auto">
+     <h3 class="text-2xl font-bold text-stone-800 mb-8">Nossos Produtos</h3>
+     <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"><!-- Products will be rendered here -->
+     </div>
+    </div>
+   </section><!-- Cart Sidebar -->
+   <div id="cart-overlay" class="fixed inset-0 bg-black/50 z-50 hidden opacity-0 transition-opacity"></div>
+   <aside id="cart-sidebar" class="fixed top-0 right-0 h-full w-full max-w-md bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300">
+    <div class="flex flex-col h-full">
+     <div class="flex items-center justify-between p-6 border-b border-stone-200">
+      <h3 class="text-xl font-bold text-stone-800">Seu Carrinho</h3><button id="close-cart" class="p-2 hover:bg-stone-100 rounded-full transition-colors">
+       <svg class="w-6 h-6 text-stone-600" fill="none" stroke="currentColor" viewbox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+       </svg></button>
+     </div>
+     <div id="cart-items" class="flex-1 overflow-y-auto p-6">
+      <p id="empty-cart" class="text-center text-stone-500 py-8">Seu carrinho está vazio</p>
+     </div>
+     <div id="cart-footer" class="border-t border-stone-200 p-6 hidden">
+      <div class="flex justify-between items-center mb-4"><span class="text-lg font-medium text-stone-700">Total:</span> <span id="cart-total" class="text-2xl font-bold text-emerald-700">R$ 0,00</span>
+      </div><button id="checkout-btn" class="w-full bg-emerald-700 hover:bg-emerald-600 text-white py-4 rounded-xl font-semibold text-lg btn-primary"> Finalizar Compra </button>
+     </div>
+    </div>
+   </aside><!-- Toast Container -->
+   <div id="toast-container" class="fixed bottom-4 right-4 z-50"></div>
+  </div>
+  <script>
+    // Product data
+    const products = [
+      { id: 'p1', name: 'Tinta Acrílica Premium', category: 'interior', price: 189.90, size: '18L', colors: ['#F5F5DC', '#E8DCC4', '#D4C4A8', '#C9B896', '#8B7355'], finish: 'Fosco' },
+      { id: 'p2', name: 'Tinta Látex Standard', category: 'interior', price: 129.90, size: '18L', colors: ['#FFFFFF', '#F0F0F0', '#E5E5E5', '#D3D3D3', '#BEBEBE'], finish: 'Acetinado' },
+      { id: 'p3', name: 'Tinta Esmalte Sintético', category: 'metal', price: 89.90, size: '3.6L', colors: ['#1C1C1C', '#2F4F4F', '#191970', '#8B0000', '#006400'], finish: 'Brilhante' },
+      { id: 'p4', name: 'Verniz Marítimo', category: 'madeira', price: 149.90, size: '3.6L', colors: ['#D2691E', '#8B4513', '#A0522D', '#CD853F', '#DEB887'], finish: 'Brilhante' },
+      { id: 'p5', name: 'Tinta para Piso', category: 'exterior', price: 219.90, size: '18L', colors: ['#808080', '#696969', '#A9A9A9', '#778899', '#708090'], finish: 'Semi-brilho' },
+      { id: 'p6', name: 'Tinta Texturizada', category: 'exterior', price: 169.90, size: '25kg', colors: ['#F5DEB3', '#FAEBD7', '#FFE4C4', '#FFDAB9', '#EEE8AA'], finish: 'Texturizado' },
+      { id: 'p7', name: 'Stain para Madeira', category: 'madeira', price: 119.90, size: '3.6L', colors: ['#5D3A1A', '#6B4423', '#7B4B2E', '#8B5A2B', '#A0522D'], finish: 'Acetinado' },
+      { id: 'p8', name: 'Primer Anticorrosivo', category: 'metal', price: 79.90, size: '3.6L', colors: ['#CD5C5C', '#808080', '#F0E68C'], finish: 'Fosco' }
+    ];
+
+    // Config
+    const defaultConfig = {
+      store_name: 'ColorMix Tintas',
+      hero_title: 'Transforme seus espaços com cores incríveis',
+      hero_subtitle: 'Tintas premium com a melhor qualidade e durabilidade do mercado',
+      primary_color: '#065f46',
+      secondary_color: '#f5f5f4',
+      text_color: '#1c1917',
+      accent_color: '#fbbf24',
+      button_color: '#047857',
+      font_family: 'Outfit'
+    };
+
+    let cartData = [];
+    let currentCategory = 'all';
+
+    // Data Handler
+    const dataHandler = {
+      onDataChanged(data) {
+        cartData = data;
+        renderCart();
+        updateCartBadge();
+      }
+    };
+
+    // Render products
+    function renderProducts(category = 'all') {
+      const grid = document.getElementById('products-grid');
+      const filtered = category === 'all' ? products : products.filter(p => p.category === category);
+      
+      grid.innerHTML = filtered.map(product => `
+        <div class="product-card bg-white rounded-2xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl" data-product-id="${product.id}">
+          <div class="h-48 relative overflow-hidden" style="background: linear-gradient(135deg, ${product.colors[0]} 0%, ${product.colors[1] || product.colors[0]} 100%)">
+            <div class="absolute top-3 right-3 bg-white/90 px-3 py-1 rounded-full text-sm font-medium text-stone-700">${product.finish}</div>
+            <div class="absolute bottom-3 left-3 flex gap-1">
+              ${product.colors.map((color, i) => `
+                <button class="color-swatch w-6 h-6 rounded-full border-2 border-white shadow-md cursor-pointer ${i === 0 ? 'ring-2 ring-emerald-500 ring-offset-1' : ''}" 
+                  style="background-color: ${color}" 
+                  data-color="${color}" 
+                  data-product="${product.id}"
+                  title="Selecionar cor"></button>
+              `).join('')}
+            </div>
+          </div>
+          <div class="p-5">
+            <span class="text-xs font-medium text-emerald-700 uppercase tracking-wide">${getCategoryName(product.category)}</span>
+            <h4 class="text-lg font-semibold text-stone-800 mt-1 mb-2">${product.name}</h4>
+            <div class="flex items-center gap-2 text-sm text-stone-500 mb-3">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm0 14a6 6 0 110-12 6 6 0 010 12z"/></svg>
+              <span>${product.size}</span>
+            </div>
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-2xl font-bold text-emerald-700">R$ ${product.price.toFixed(2).replace('.', ',')}</span>
+              </div>
+              <button class="add-to-cart bg-emerald-700 hover:bg-emerald-600 text-white px-4 py-2 rounded-xl font-medium btn-primary flex items-center gap-2" data-product="${product.id}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"/>
+                </svg>
+                Adicionar
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      // Add event listeners
+      document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const productId = e.currentTarget.dataset.product;
+          const card = e.currentTarget.closest('.product-card');
+          const selectedColor = card.querySelector('.color-swatch.ring-2')?.dataset.color || products.find(p => p.id === productId).colors[0];
+          addToCart(productId, selectedColor);
+        });
+      });
+
+      document.querySelectorAll('.color-swatch').forEach(swatch => {
+        swatch.addEventListener('click', (e) => {
+          const card = e.target.closest('.product-card');
+          card.querySelectorAll('.color-swatch').forEach(s => s.classList.remove('ring-2', 'ring-emerald-500', 'ring-offset-1'));
+          e.target.classList.add('ring-2', 'ring-emerald-500', 'ring-offset-1');
+          
+          const gradient = card.querySelector('.h-48');
+          const color = e.target.dataset.color;
+          gradient.style.background = `linear-gradient(135deg, ${color} 0%, ${adjustColor(color, 20)} 100%)`;
+        });
+      });
+    }
+
+    function getCategoryName(cat) {
+      const names = { interior: 'Interior', exterior: 'Exterior', madeira: 'Madeira', metal: 'Metal' };
+      return names[cat] || cat;
+    }
+
+    function adjustColor(hex, percent) {
+      const num = parseInt(hex.slice(1), 16);
+      const amt = Math.round(2.55 * percent);
+      const R = Math.min(255, (num >> 16) + amt);
+      const G = Math.min(255, ((num >> 8) & 0x00FF) + amt);
+      const B = Math.min(255, (num & 0x0000FF) + amt);
+      return `#${(0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1)}`;
+    }
+
+    // Cart functions
+    async function addToCart(productId, selectedColor) {
+      if (cartData.length >= 999) {
+        showToast('Limite máximo de itens atingido', 'error');
+        return;
+      }
+
+      const product = products.find(p => p.id === productId);
+      const existingItem = cartData.find(item => item.product_id === productId && item.color === selectedColor);
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+        const result = await window.dataSdk.update(existingItem);
+        if (!result.isOk) {
+          showToast('Erro ao atualizar carrinho', 'error');
+        } else {
+          showToast(`${product.name} atualizado!`, 'success');
+        }
+      } else {
+        const result = await window.dataSdk.create({
+          product_id: productId,
+          product_name: product.name,
+          quantity: 1,
+          price: product.price,
+          color: selectedColor,
+          added_at: new Date().toISOString()
+        });
+        if (!result.isOk) {
+          showToast('Erro ao adicionar ao carrinho', 'error');
+        } else {
+          showToast(`${product.name} adicionado!`, 'success');
+        }
+      }
+    }
+
+    async function updateQuantity(item, delta) {
+      const newQty = item.quantity + delta;
+      if (newQty <= 0) {
+        await removeFromCart(item);
+      } else {
+        item.quantity = newQty;
+        const result = await window.dataSdk.update(item);
+        if (!result.isOk) {
+          showToast('Erro ao atualizar quantidade', 'error');
+        }
+      }
+    }
+
+    async function removeFromCart(item) {
+      const result = await window.dataSdk.delete(item);
+      if (!result.isOk) {
+        showToast('Erro ao remover item', 'error');
+      } else {
+        showToast('Item removido', 'success');
+      }
+    }
+
+    function renderCart() {
+      const cartItemsEl = document.getElementById('cart-items');
+      const emptyCart = document.getElementById('empty-cart');
+      const cartFooter = document.getElementById('cart-footer');
+      const cartTotal = document.getElementById('cart-total');
+
+      if (cartData.length === 0) {
+        emptyCart.classList.remove('hidden');
+        cartFooter.classList.add('hidden');
+        cartItemsEl.innerHTML = '<p id="empty-cart" class="text-center text-stone-500 py-8">Seu carrinho está vazio</p>';
+        return;
+      }
+
+      cartFooter.classList.remove('hidden');
+      
+      cartItemsEl.innerHTML = cartData.map(item => `
+        <div class="cart-item flex gap-4 py-4 border-b border-stone-100" data-item-id="${item.__backendId}">
+          <div class="w-16 h-16 rounded-xl flex-shrink-0" style="background: ${item.color}"></div>
+          <div class="flex-1 min-w-0">
+            <h4 class="font-medium text-stone-800 truncate">${item.product_name}</h4>
+            <p class="text-sm text-stone-500">R$ ${item.price.toFixed(2).replace('.', ',')} cada</p>
+            <div class="flex items-center gap-3 mt-2">
+              <button class="qty-btn w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-colors" data-action="decrease" data-id="${item.__backendId}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4"/></svg>
+              </button>
+              <span class="font-medium text-stone-800">${item.quantity}</span>
+              <button class="qty-btn w-8 h-8 rounded-full bg-stone-100 hover:bg-stone-200 flex items-center justify-center transition-colors" data-action="increase" data-id="${item.__backendId}">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v12m6-6H6"/></svg>
+              </button>
+            </div>
+          </div>
+          <div class="text-right">
+            <p class="font-bold text-emerald-700">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</p>
+            <button class="remove-btn text-stone-400 hover:text-red-500 mt-2 transition-colors" data-id="${item.__backendId}">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+            </button>
+          </div>
+        </div>
+      `).join('');
+
+      const total = cartData.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      cartTotal.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+
+      // Add event listeners
+      document.querySelectorAll('.qty-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.currentTarget.dataset.id;
+          const action = e.currentTarget.dataset.action;
+          const item = cartData.find(i => i.__backendId === id);
+          if (item) {
+            updateQuantity(item, action === 'increase' ? 1 : -1);
+          }
+        });
+      });
+
+      document.querySelectorAll('.remove-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          const id = e.currentTarget.dataset.id;
+          const item = cartData.find(i => i.__backendId === id);
+          if (item) {
+            removeFromCart(item);
+          }
+        });
+      });
+      
+    }
+
+    function updateCartBadge() {
+      const badge = document.getElementById('cart-count');
+      const count = cartData.reduce((sum, item) => sum + item.quantity, 0);
+      if (count > 0) {
+        badge.textContent = count;
+        badge.classList.remove('hidden');
+      } else {
+        badge.classList.add('hidden');
+      }
+    }
+
+    function toggleCart(show) {
+      const sidebar = document.getElementById('cart-sidebar');
+      const overlay = document.getElementById('cart-overlay');
+      
+      if (show) {
+        sidebar.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        setTimeout(() => overlay.classList.remove('opacity-0'), 10);
+      } else {
+        sidebar.classList.add('translate-x-full');
+        overlay.classList.add('opacity-0');
+        setTimeout(() => overlay.classList.add('hidden'), 300);
+      }
+    }
+
+    function showToast(message, type = 'success') {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = `toast flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg mb-2 ${type === 'success' ? 'bg-emerald-700 text-white' : 'bg-red-600 text-white'}`;
+      toast.innerHTML = `
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          ${type === 'success' 
+            ? '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>'
+            : '<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>'}
+        </svg>
+        <span class="font-medium">${message}</span>
+      `;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 3000);
+    }
+
+    // Category filtering
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        document.querySelectorAll('.category-btn').forEach(b => {
+          b.classList.remove('bg-emerald-800', 'text-white');
+          b.classList.add('bg-stone-200', 'text-stone-700');
+        });
+        e.target.classList.remove('bg-stone-200', 'text-stone-700');
+        e.target.classList.add('bg-emerald-800', 'text-white');
+        currentCategory = e.target.dataset.category;
+        renderProducts(currentCategory);
+      });
+    });
+
+    // Cart toggle
+    document.getElementById('cart-btn').addEventListener('click', () => toggleCart(true));
+    document.getElementById('close-cart').addEventListener('click', () => toggleCart(false));
+    document.getElementById('cart-overlay').addEventListener('click', () => toggleCart(false));
+
+    // Checkout
+    document.getElementById('checkout-btn').addEventListener('click', () => {
+      showToast('Compra finalizada com sucesso! 🎉', 'success');
+      toggleCart(false);
+    });
+
+    // Element SDK
+    async function onConfigChange(config) {
+      const c = { ...defaultConfig, ...config };
+      document.getElementById('store-name').textContent = c.store_name;
+      document.getElementById('hero-title').textContent = c.hero_title;
+      document.getElementById('hero-subtitle').textContent = c.hero_subtitle;
+      
+      document.querySelectorAll('#store-name, h3, h4, p, span').forEach(el => {
+        el.style.fontFamily = `${c.font_family}, sans-serif`;
+      });
+    }
+
+    function mapToCapabilities(config) {
+      const c = { ...defaultConfig, ...config };
+      return {
+        recolorables: [
+          { get: () => c.primary_color, set: (v) => window.elementSdk.setConfig({ primary_color: v }) },
+          { get: () => c.secondary_color, set: (v) => window.elementSdk.setConfig({ secondary_color: v }) },
+          { get: () => c.text_color, set: (v) => window.elementSdk.setConfig({ text_color: v }) },
+          { get: () => c.accent_color, set: (v) => window.elementSdk.setConfig({ accent_color: v }) },
+          { get: () => c.button_color, set: (v) => window.elementSdk.setConfig({ button_color: v }) }
+        ],
+        borderables: [],
+        fontEditable: { 
+          get: () => c.font_family, 
+          set: (v) => window.elementSdk.setConfig({ font_family: v }) 
+        },
+        fontSizeable: undefined
+      };
+    }
+
+    function mapToEditPanelValues(config) {
+      const c = { ...defaultConfig, ...config };
+      return new Map([
+        ['store_name', c.store_name],
+        ['hero_title', c.hero_title],
+        ['hero_subtitle', c.hero_subtitle]
+      ]);
+    }
+
+    // Initialize
+    async function init() {
+      renderProducts();
+      
+      if (window.elementSdk) {
+        window.elementSdk.init({
+          defaultConfig,
+          onConfigChange,
+          mapToCapabilities,
+          mapToEditPanelValues
+        });
+      }
+
+      if (window.dataSdk) {
+        const result = await window.dataSdk.init(dataHandler);
+        if (!result.isOk) {
+          console.error('Failed to initialize Data SDK');
+        }
+      }
+    }
+
+    init();
+  </script>
+ <script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'9d06bde341bfd414',t:'MTc3MTUxNDM1OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
